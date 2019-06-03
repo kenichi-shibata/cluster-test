@@ -15,7 +15,7 @@ delete-%:
 	@kind delete cluster --name $(NAME)
 
 env-%:
-	@echo 'export KUBECONFIG=';kind get kubeconfig-path --name $(NAME)
+	@printf 'export KUBECONFIG=';kind get kubeconfig-path --name $(NAME)
 
 clean:
 	@kind get clusters | xargs -L1 -I% kind delete cluster --name %
