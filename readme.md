@@ -116,6 +116,14 @@ helmfile sync # automatically picks up helmfile.yaml to change add --file flag
         - --kubelet-insecure-tls
         - --kubelet-preferred-address-types=InternalIP
 ```
+Check if you metrics server is working
+
+```
+kubectl logs <pod-name of metrics-server> -n kube-system
+kubectl top nodes 
+kubectl top pods -n kube-system
+```
+
 
 Resources
 ----------
