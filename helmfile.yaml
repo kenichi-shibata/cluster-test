@@ -10,3 +10,6 @@ releases:
       - args:
         - --kubelet-insecure-tls
         - --kubelet-preferred-address-types=InternalIP
+#  - name: coredns
+#    namespace: kube-system
+#    chart: stable/coredns

@@ -1,6 +1,36 @@
 # https://kind.sigs.k8s.io/docs/user/quick-start/
 # a cluster with 3 control-plane nodes and 3 workers
 kind: Cluster
+kubeadmConfigPatches:
+# Comment this out first while still thinking of adding podsecurity policy
+# next, Maybe include other feature gates as well.
+#
+#- |
+#  apiVersion: kubeadm.k8s.io/v1beta1
+#  kind: ClusterConfiguration
+#  metadata:
+#    name: config
+#  apiServer:
+#    extraArgs:
+#      "feature-gates": "FeatureGateName=true"
+#  scheduler:
+#    extraArgs:
+#      "feature-gates": "FeatureGateName=true"
+#  controllerManager:
+#    extraArgs:
+#      "feature-gates": "FeatureGateName=true"
+#
+# Disables adding CoreDNS Automatically after 1.11 CoreDNS is automatically
+# installed on any kubeadm installations
+#
+#- |
+#  apiVersion: kubeadm.k8s.io/v1beta1
+#  kind: InitConfiguration
+#  metadata:
+#    name: config
+#  nodeRegistration:
+#    kubeletExtraArgs:
+#      "feature-gates": "CoreDNS=false"
 apiVersion: kind.sigs.k8s.io/v1alpha3
 nodes:
 - role: control-plane
