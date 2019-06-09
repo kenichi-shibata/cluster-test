@@ -71,7 +71,7 @@ Install Tiller and helm
 * Initialize helm and tiller 
 
 ```
-./setup_helm.sh
+./hack/setup_helm.sh
 ```
 
 * Its failing to startup the tiller pod
@@ -87,7 +87,7 @@ kubectl delete deployment tiller-deploy -n kube-system
 ```
 kubectl apply -f sa-helm.yaml
 kubectl apply -f rbac-helm.yaml
-./setup_helm.sh
+./hack/setup_helm.sh
 ```
 
 * Wait for the pod to come up 
