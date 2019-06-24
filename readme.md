@@ -85,8 +85,8 @@ kubectl delete deployment tiller-deploy -n kube-system
 * Add RBAC Roles and try again
 
 ```
-kubectl apply -f sa-helm.yaml
-kubectl apply -f rbac-helm.yaml
+kubectl apply -f helm/sa-helm.yaml
+kubectl apply -f helm/rbac-helm.yaml
 ./hack/setup_helm.sh
 ```
 
