@@ -12,10 +12,10 @@ create-%:
 	kind create cluster --name $(NAME) --wait $(WAIT)
 
 create3-%:
-	kind create cluster --name $(NAME) --wait $(WAIT) --config kind-three-nodes.yaml
+	kind create cluster --name $(NAME) --wait $(WAIT) --config kind/kind-three-nodes.yaml
 
 create6-%:
-	kind create cluster --name $(NAME) --wait $(WAIT) --config kind-six-nodes.yaml
+	kind create cluster --name $(NAME) --wait $(WAIT) --config kind/kind-six-nodes.yaml
 
 delete-%:
 	@kind delete cluster --name $(NAME)
