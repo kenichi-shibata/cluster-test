@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curler-pv-pod
+spec:
+  volumes:
+    - name: curler-pv-storage
+      persistentVolumeClaim:
+        claimName: bogdan-curler-pvc
+  containers:
+    - name: task-pv-container
+      image: kenichishibata/docker-curl
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/opt/curl"
+          name: curler-pv-storage
+
