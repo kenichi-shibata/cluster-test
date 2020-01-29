@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: bogdan-static-pv-curler
+  labels:
+    app: curler
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  awsElasticBlockStore:
+    volumeID: vol-002e910c69a6a931e
+    fsType: ext4
+# https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#volume-v1-core
+# https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
+
