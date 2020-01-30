@@ -31,4 +31,4 @@ spec:
       storageClassName: "slow"
       resources:
         requests:
-          storage: 4Gi # io2 needs to be at least 4Gi
+          storage: 4Gi # io2 needs to be at least 4Gi min and 16384Gi Max

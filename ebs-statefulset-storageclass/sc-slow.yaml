@@ -3,7 +3,8 @@ kind: StorageClass
 metadata:
   name: slow
 provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Retain # Default is Retain
 parameters:
   type: io1
-  iopsPerGB: "10"
+  iopsPerGB: "100" # (Min: 100 IOPS, Max: 64000 IOPS)
   fsType: ext4

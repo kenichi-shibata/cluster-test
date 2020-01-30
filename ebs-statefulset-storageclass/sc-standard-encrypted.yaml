@@ -3,6 +3,7 @@ kind: StorageClass
 metadata:
   name: standard-encrypted
 provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Delete # Default is Retain
 parameters:
   type: gp2
   fsType: ext4
