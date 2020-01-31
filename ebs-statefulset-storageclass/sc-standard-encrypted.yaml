@@ -4,6 +4,7 @@ metadata:
   name: standard-encrypted
 provisioner: kubernetes.io/aws-ebs
 reclaimPolicy: Delete # Default is Retain
+volumeBindingMode: Immediate # Default is Immediate, immediately provisions and binds pvs immediately once pvcs are created this could cause issue if the pods are not globally accessible (without taints) or topology constraints
 parameters:
   type: gp2
   fsType: ext4
