@@ -22,7 +22,7 @@ data:
   mapAccounts: |
     []
   mapRoles: |
-    - rolearn: arn:aws:iam::029718257588:role/airflow-cluster-gdsV0a1g20200203160949519100000002
+    - rolearn: arn:aws:iam::xxxxx:role/xxxx-cluster-xxxx
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
@@ -47,3 +47,11 @@ metadata:
 ```
 
 Annoyingly you need to `mapUsers` manually and use the `userarn` for both the user and the role arns :poop:
+
+Login to kubernetes
+---------
+
+Export the config for kubernetes in order to authenticate against the kube api server
+```
+export KUBECONFIG=<local dir>/kubeconfig-xxxx
+```
