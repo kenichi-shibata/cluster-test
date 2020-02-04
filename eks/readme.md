@@ -55,3 +55,7 @@ Export the config for kubernetes in order to authenticate against the kube api s
 ```
 export KUBECONFIG=<local dir>/kubeconfig-xxxx
 ```
+
+makes sure the groups are valid
+
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
