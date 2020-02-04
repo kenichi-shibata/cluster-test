@@ -2,6 +2,15 @@
 ```
 export KUBECONFIG=kubeconfigfile
 ```
+## Alternatively you can get the config file by running 
+
+Assuming you have the required permissions
+
+```
+aws eks get-token --cluster-name <cluster-name>
+```
+
+
 ## Install homebrew
 ```
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
