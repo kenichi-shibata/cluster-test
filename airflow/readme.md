@@ -2,7 +2,7 @@
 ```
 export KUBECONFIG=kubeconfigfile
 ```
-## Alternatively you can get the config file by running 
+## Alternatively you can get the config file by running
 
 Assuming you have the required permissions
 
@@ -85,3 +85,14 @@ Read helm chart for dag setup
 https://github.com/bitnami/charts/tree/master/bitnami/airflow
 
 And do this for the innovation day
+
+## Using kubernetes pod operator for airflow
+
+If you want to spin up a kubernetes pod operator in airflow
+
+You will need to setup the rbac bindings for the pods
+
+Currently the bitnami helm chart does not support support this yet
+
+This is why we are binding the `default` service account with the permission
+to create new pods
