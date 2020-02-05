@@ -20,10 +20,26 @@ roleRef:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: kubernetespodoperatorrolebinding
+  name: kubernetespodoperatorrolebindingdefaultns
+  namespace: innovation-day
 subjects:
 - kind: ServiceAccount
-  name: system:serviceaccount:innovation-day:default
+  name: default
+roleRef:
+  kind: Role
+  name: kubernetespodoperatorrole
+  apiGroup: rbac.authorization.k8s.io
+---
+# default namespace token is created automatically for the purposes of poc we
+# can add the bind the role to that
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubernetespodoperatorrolebindingdefaultnsnew
+  namespace: new
+subjects:
+- kind: ServiceAccount
+  name: default
 roleRef:
   kind: Role
   name: kubernetespodoperatorrole
