@@ -1,0 +1,62 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubernetespodoperatorrole
+rules:
+- apiGroups:
+  - ""
+  resources:
+    - deployments
+    - pods
+    - pods/portforward
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+- apiGroups:
+  - ""
+  resources:
+    - pods/log
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+  - extensions
+  resources:
+    - deployments
+    - replicasets
+    - ingresses
+  verbs:
+    - get
+    - create
+    - delete
+    - update
+    - list
+    - patch
+- apiGroups:
+  - apps
+  resources:
+    - deployments
+  verbs:
+    - get
+    - create
+    - delete
+    - update
+    - patch
+- apiGroups:
+  - ""
+  resources:
+    - secrets
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
