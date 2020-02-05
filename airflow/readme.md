@@ -96,3 +96,7 @@ Currently the bitnami helm chart does not support support this yet
 
 This is why we are binding the `default` service account with the permission
 to create new pods
+
+Also change the `innovation-day` namespace in
+`system:serviceaccount:innovation-day:default: to the actual namespace you
+are running this as
