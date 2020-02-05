@@ -98,5 +98,10 @@ This is why we are binding the `default` service account with the permission
 to create new pods
 
 Also change the `innovation-day` namespace in
-`system:serviceaccount:innovation-day:default: to the actual namespace you
+`system:serviceaccount:innovation-day:default` to the actual namespace you
 are running this as
+
+### KubernetesPodOperator
+
+https://kubernetes.io/blog/2018/06/28/airflow-on-kubernetes-part-1-a-different-kind-of-operator/
+https://airflow.apache.org/docs/1.10.3/_modules/airflow/contrib/operators/kubernetes_pod_operator.html
