@@ -1,14 +1,14 @@
 Cluster-test
 ===============
-Spin up an instance fast using kind and docker. 
+Spin up an instance fast using kind and docker.
 Useful for testing Kubernetes Plugins and features.
 
 The nodes are spun up via docker and are viewable via `docker ps`
 
 Prerequisites
 -----------
-* Docker 
-* Kubectl 
+* Docker
+* Kubectl
 * Helm
 * Helmfile
 * jq
@@ -19,14 +19,19 @@ MacOS Quick Prereq Start
 * brew install kubernetes-cli
 * brew install kubernetes-helm
 * brew install helmfile
-* brew install jq 
+* brew install jq
 * brew install watch
 * https://hub.docker.com/editions/community/docker-ce-desktop-mac
 
-Makefile cmds
+Step 1: Create a cluster
+===================
+
+You can use kind or eks
+
+KIND Makefile cmds
 --------------
 
-Create a cluster 
+Create a cluster
 ```
 make create-<cluster-name>
 ```
@@ -47,7 +52,7 @@ Clean up all clusters
 make clean
 ```
 
-Login to a cluster
+KIND Login to a cluster
 -------------
 ```
 make create-cluster-1
@@ -57,7 +62,7 @@ kubectl cluster-info
 kubectl get nodes
 ```
 
-Create a 6 node cluster
+KIND Create a 6 node cluster
 ----------
 * 3 control plane node
 * 3 worker node
@@ -66,9 +71,27 @@ Create a 6 node cluster
 make create6-<cluster-name>
 ```
 
-Install Tiller and helm
--------------------
-* Initialize helm and tiller 
+EKS Create a cluster
+------------------
+
+```
+cd eks
+terraform init
+terraform apply
+```
+
+EKS Authenticate with the cluster
+----------------
+
+```
+aws-vault exec dev -- zsh
+export KUBECONFIG=<path to repo>/eks/<Kubeconfig file>
+kubectl get nodes
+```
+
+Step 2: KIND Install Tiller and helm
+======================
+* Initialize helm and tiller
 
 ```
 ./hack/setup_helm.sh
@@ -90,7 +113,7 @@ kubectl apply -f helm/rbac-helm.yaml
 ./hack/setup_helm.sh
 ```
 
-* Wait for the pod to come up 
+* Wait for the pod to come up
 ```
 watch kubectl get pods -n kube-system
 ```
@@ -100,18 +123,18 @@ watch kubectl get pods -n kube-system
 ```
 helm ls
 helm version
-helm repo update 
+helm repo update
 helm repo list
 ```
 
 Setup helmfile and metrics server
 -------------
 * Install helmfile
-* Run helmfile sync 
+* Run helmfile sync
 ```
 helmfile sync # automatically picks up helmfile.yaml to change add --file flag
 ```
-* Initially there was a problem with metrics-server because kind uses no https endpoint so i added two args in helmfile definition 
+* Initially there was a problem with metrics-server because kind uses no https endpoint so i added two args in helmfile definition
 ```
     args:
         - --kubelet-insecure-tls
@@ -122,7 +145,7 @@ Check if you metrics server is working
 ```
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes"
 kubectl logs deployment/metrics-server -n kube-system
-kubectl top nodes 
+kubectl top nodes
 kubectl top pods -n kube-system
 ```
 
@@ -149,7 +172,7 @@ kubectl run --image=kenichishibata/docker-curl curler
 
 ```
 export CURLER_PODNAME=$(kubectl get pods -l run=curler -o=jsonpath='{.items[0].metadata.name}')
-kubectl exec -it $CURLER_PODNAME -- sh 
+kubectl exec -it $CURLER_PODNAME -- sh
 / # curl google.com
 curl: (6) Could not resolve host: google.com
 / # nslookup google.com
@@ -165,7 +188,7 @@ Install coredns on your cluster
 ```
 helm install --name coredns --namespace=kube-system stable/coredns
 ```
-Or 
+Or
 
 * Use helmfile
 ```
@@ -182,14 +205,14 @@ watch kubectl get pods -n kube-system
 
 ```
 kubectl run -it --rm --restart=Never --image=infoblox/dnstools:latest dnstools
-kubectl exec -it dnstools -- sh 
+kubectl exec -it dnstools -- sh
 # host kubernetes
 ```
 
 * Run curl again
 
 ```
- kubectl exec -it <curler pod name> -- sh 
+ kubectl exec -it <curler pod name> -- sh
 / # nslookup kubernetes.default
 / # curl google.com
 
@@ -198,6 +221,46 @@ kubectl exec -it dnstools -- sh
 * Troubleshooting https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/
 * Scaling https://github.com/coredns/deployment/blob/master/kubernetes/Scaling_CoreDNS.md
 
+
+Step 2: EKS Install FluxCD and HelmOperator
+==================
+https://github.com/fluxcd/helm-operator/blob/master/chart/helm-operator/README.md
+
+Read what changed in helm 3
+
+* https://helm.sh/blog/helm-3-released/
+* https://helm.sh/docs/faq/#changes-since-helm-2
+
+Install helm 3 using https://helm.sh/docs/intro/install/
+
+Add and use the fluxcd helm repo
+```
+helm3 repo add fluxcd https://charts.fluxcd.io
+```
+
+Install the helmrelease crd
+```
+kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/flux-helm-release-crd.yaml
+```
+
+Create ns
+```
+kubectl create ns fluxcd
+```
+
+Install Helm Operator for Helm v3 only:
+
+```
+helm3 upgrade -i helm-operator fluxcd/helm-operator \
+--namespace fluxcd \
+--set helm.versions=v3
+```
+
+List and get the helm operator deployment
+```
+helm3 list --namespace fluxcd
+helm3 get all helm-operator --namespace fluxcd
+```
 
 Resources
 ----------

@@ -3,3 +3,5 @@
 cliversions/
 *.terraform/
 *terraform.tfstate*
+*kubeconfig*
+*tfplan*
