@@ -5,3 +5,5 @@ cliversions/
 *terraform.tfstate*
 *kubeconfig*
 *tfplan*
+*accesskey*
+*key*
