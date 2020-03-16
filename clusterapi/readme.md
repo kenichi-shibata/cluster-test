@@ -9,6 +9,17 @@ terraform plan // apply
 export KUBECONFIG
 ```
 
+create IAM role `nodes.cluster-api-provider-aws.sigs.k8s.io`
+
+create an ADMIN accesskey
+
+```
+[default]
+aws_access_key_id = AKIAEXAMPLEACCESSKEY7IAM
+aws_secret_access_key = 094qwthoslogijxogihwnesdihogsin
+region = eu-west-1
+```
+
 Create Cluster API components
 ======
 
