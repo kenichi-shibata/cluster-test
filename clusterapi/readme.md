@@ -99,9 +99,11 @@ Get AWS Credentials
 
 `export AWS_B64ENCODED_CREDENTIALS=$(clusterawsadm alpha bootstrap encode-aws-credentials)`
 
+```
 # dont use above if you are using aws-vault
 # create an aws credentials file and base64 encode it and then export that
 # instead as AWS_B64ENCODED_CREDENTIALS
+```
 
 ```
 curl -L https://github.com/kubernetes-sigs/cluster-api-provider-aws/releases/download/v0.4.9/infrastructure-components.yaml > insfrastructure-components.yaml
