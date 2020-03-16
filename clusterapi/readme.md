@@ -103,6 +103,8 @@ Get AWS Credentials
 # dont use above if you are using aws-vault
 # create an aws credentials file and base64 encode it and then export that
 # instead as AWS_B64ENCODED_CREDENTIALS
+vi accesskey
+export AWS_B64ENCODED_CREDENTIALS=`cat accesskey | base64`
 ```
 
 ```
