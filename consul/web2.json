@@ -1,0 +1,10 @@
+{"service":
+  {"name": "web2",
+    "tags": ["rails"],
+    "port": 80,
+    "check": {
+      "args": ["curl", "localhost:8500"],
+      "interval": "10s"
+    }
+  }
+}

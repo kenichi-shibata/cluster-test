@@ -1,0 +1,19 @@
+# https://www.consul.io/api/agent/service.html
+$ curl \
+    --request PUT \
+    --data @payload.json \
+    http://127.0.0.1:8500/v1/agent/service/register?replace-existing-checks=true
+{
+  "ID": "redis1",
+  "Name": "redis",
+  "Tags": [
+    "primary",
+    "v1"
+  ],
+  "Address": "127.0.0.1",
+  "Port": 8000,
+  "Meta": {
+    "redis_version": "4.0"
+  },
+  "EnableTagOverride": false
+}

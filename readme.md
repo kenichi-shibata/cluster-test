@@ -13,6 +13,7 @@ Prerequisites
 * Helmfile
 * jq
 * watch
+* kind
 
 MacOS Quick Prereq Start
 --------------
@@ -21,7 +22,9 @@ MacOS Quick Prereq Start
 * brew install helmfile
 * brew install jq
 * brew install watch
+* brew install kind
 * https://hub.docker.com/editions/community/docker-ce-desktop-mac
+* Make sure you are running 4 cpu and 8 gb of ram assigned to docker 
 
 Step 1: Create a cluster
 ===================
@@ -89,7 +92,7 @@ export KUBECONFIG=<path to repo>/eks/<Kubeconfig file>
 kubectl get nodes
 ```
 
-Step 2: KIND Install Tiller and helm
+Step 2: KIND Install Tiller and helm (not needed for helm3)
 ======================
 * Initialize helm and tiller
 
@@ -114,6 +117,7 @@ kubectl apply -f helm/rbac-helm.yaml
 ```
 
 * Wait for the pod to come up
+
 ```
 watch kubectl get pods -n kube-system
 ```
@@ -127,22 +131,53 @@ helm repo update
 helm repo list
 ```
 
-Setup helmfile and metrics server
+Setup helmfile and metrics server (does not work with helm3)
 -------------
 * Install helmfile
 * Run helmfile sync
+
 ```
 helmfile sync # automatically picks up helmfile.yaml to change add --file flag
 ```
+
 * Initially there was a problem with metrics-server because kind uses no https endpoint so i added two args in helmfile definition
 ```
     args:
         - --kubelet-insecure-tls
         - --kubelet-preferred-address-types=InternalIP
 ```
-Check if you metrics server is working
+
+* Check if you metrics server is working
 
 ```
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes"
+kubectl logs deployment/metrics-server -n kube-system
+kubectl top nodes
+kubectl top pods -n kube-system
+```
+
+* You will probably see this error message a few times, while the
+metrics-server is starting up
+
+```
+Error from server (ServiceUnavailable): the server is currently unable to handle the request (get pods.metrics.k8s.io)
+```
+
+If you do not have coredns on your cluster
+----------------------
+
+* It should automatically be installed by default
+* `helm install stable/coredns`
+
+Helm 3 install metrics-server
+----------
+```
+helm3 repo add stable https://kubernetes-charts.storage.googleapis.com
+helm3 repo update 
+helm3 install stable/metrics-server
+
+#Check if you metrics server is working
+
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes"
 kubectl logs deployment/metrics-server -n kube-system
 kubectl top nodes
@@ -156,9 +191,9 @@ metrics-server is starting up
 Error from server (ServiceUnavailable): the server is currently unable to handle the request (get pods.metrics.k8s.io)
 ```
 
-If you do not have coredns on your cluster
-----------------------
-* It should automatically be installed by default
+
+
+
 
 Try to reach internet from inside your cluster
 ----------
