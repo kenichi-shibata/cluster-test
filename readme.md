@@ -24,7 +24,7 @@ MacOS Quick Prereq Start
 * brew install watch
 * brew install kind
 * https://hub.docker.com/editions/community/docker-ce-desktop-mac
-* Make sure you are running 4 cpu and 8 gb of ram assigned to docker 
+* Make sure you are running 4 cpu and 8 gb of ram assigned to docker
 
 Step 1: Create a cluster
 ===================
@@ -92,7 +92,7 @@ export KUBECONFIG=<path to repo>/eks/<Kubeconfig file>
 kubectl get nodes
 ```
 
-Step 2: KIND Install Tiller and helm (not needed for helm3)
+Step 2: Install Tiller and helm (not needed for helm3)
 ======================
 * Initialize helm and tiller
 
@@ -173,7 +173,7 @@ Helm 3 install metrics-server
 ----------
 ```
 helm3 repo add stable https://kubernetes-charts.storage.googleapis.com
-helm3 repo update 
+helm3 repo update
 helm3 install stable/metrics-server
 
 #Check if you metrics server is working
