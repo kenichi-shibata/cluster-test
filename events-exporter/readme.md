@@ -41,27 +41,30 @@ pip3 install awscli --upgrade
 
 get the id of aws kms key called aws/es
 ```
-aws kms list
+ES_KMS_ID=$(aws kms list-aliases | jq -r '.Aliases[] | select(.AliasName=="alias/aws/es").TargetKeyId')
 ```
 
 define username password
 ```
 USERNAME=fakeuser
 PASSWORD=Fakepassword1!
+ES_DOMAIN=kubernetes-events-2
+AWS_ACCOUNT=00000000000
+
 ```
 
 ```
 aws es create-elasticsearch-domain \
   --region eu-west-1 \
-  --domain-name kubernetes-events \
+  --domain-name $ES_DOMAIN \
   --domain-endpoint-options EnforceHTTPS=true,TLSSecurityPolicy=Policy-Min-TLS-1-2-2019-07 \
   --elasticsearch-version 7.4 \
   --elasticsearch-cluster-config InstanceType=r4.large.elasticsearch,InstanceCount=1 \
   --ebs-options EBSEnabled=true,VolumeType=standard,VolumeSize=10 \
   --node-to-node-encryption-options Enabled=true \
-  --encryption-at-rest Enabled=true,KmsKeyId=0ec591fc-2dea-4002-bc83-79386fe8344b \
-  --advanced-security-options '{"Enabled":true,"InternalUserDatabaseEnabled":true,"MasterUserOptions": {"MasterUserName":"fakeuser","MasterUserPassword":"Fakepassword1!"}}' \
-  --access-policies '{"Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Principal": {"AWS": "*" }, "Action":"es:*", "Resource": "arn:aws:es:us-west-1:029718257588:domain/kubernetes-events/*" } ] }'
+  --encryption-at-rest Enabled=true,KmsKeyId=$ES_KMS_ID \
+  --advanced-security-options "{\"Enabled\":true,\"InternalUserDatabaseEnabled\":true,\"MasterUserOptions\": {\"MasterUserName\":\"$USERNAME\",\"MasterUserPassword\":\"$PASSWORD\"}}" \
+  --access-policies "{\"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"*\" }, \"Action\":\"es:*\", \"Resource\": \"arn:aws:es:us-west-1:$AWS_ACCOUNT:domain/$ES_DOMAIN/*\" } ] }"
 ```
 
 ### Testing setup
@@ -94,7 +97,7 @@ eksctl create cluster -f dev-cluster-1.yaml
 Setting up events-exporter
 -----------
 
-**change 01-configmap.yaml host to the ES_ENDPOINT before applying** 
+**change 01-configmap.yaml host to the ES_ENDPOINT before applying**
 
 ```
 # update user name and password for the aws elasticsearch service
