@@ -126,4 +126,5 @@ Elasticsearch indexing
 -------
 * https://www.elastic.co/guide/en/kibana/current/managing-fields.html
 
+![](./event-exporter-kibana.png)
 
