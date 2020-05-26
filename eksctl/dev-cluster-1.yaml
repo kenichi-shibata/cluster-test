@@ -1,0 +1,66 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: dev-cluster-1
+  region: eu-west-1
+
+nodeGroups:
+  - name: dev-cluster-1001-stateless
+    instanceType: m5.large
+    desiredCapacity: 1
+    privateNetworking: true
+    ssh:
+      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+  - name: dev-cluster-1003-prometheus
+    instanceType: m5.xlarge
+    desiredCapacity: 1
+    maxSize: 1
+    minSize: 1
+    ssh:
+      allow: true
+    privateNetworking: true # only provide private IPs and private subnets
+    labels:
+      node-class: "high-memory-node"
+    taints:
+      prometheus: "true:NoSchedule"
+  - name: dev-cluster-1004-spotinst
+    minSize: 2
+    maxSize: 5
+    instancesDistribution:
+      maxPrice: 0.017
+      instanceTypes: ["t3.small", "t3.medium"] # At least one instance type should be specified
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 50
+      spotInstancePools: 2
+    labels:
+      node-class: "unreliable-node"
+    taints:
+      spot-instance: "true:NoSchedule"
+  - name: dev-cluster-1005-appmesh
+    instanceType: m5.large
+    desiredCapacity: 1
+    iam:
+      withAddonPolicies:
+        albIngress: true
+        appMesh: true
+        xRay: true
+        cloudWatch: true
+
+vpc:
+  cidr: 11.0.0.0/16
+  #autoAllocateIPv6: true #This fails to delete
+  # disable public access to endpoint and only allow private access
+  clusterEndpoints:
+    publicAccess: true
+    privateAccess: true
+  nat:
+    gateway: HighlyAvailable # other options: Disable, Single (defaul
+
+cloudWatch:
+  clusterLogging:
+    # enable specific types of cluster control plane logs
+    enableTypes: ["audit", "authenticator", "controllerManager", "scheduler", "api"]
+    # all supported types: "api", "audit", "authenticator", "controllerManager", "scheduler"
+    # supported special values: "*" and "all"
+

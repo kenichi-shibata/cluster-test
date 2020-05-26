@@ -7,6 +7,13 @@ tip: Use k9s with shift+f because of boatloads of port-forwarding its much easie
 * https://argoproj.github.io/argo-cd/getting_started/
 * https://www.youtube.com/watch?v=eyk5oKK6rDM
 
+**download argocd cli tool**
+```
+brew tap argoproj/tap
+brew install argoproj/tap/argocd
+argocd version
+```
+
 **Create argocd namespace**
 ```
 kubectl create namespace argocd

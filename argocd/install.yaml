@@ -36,6 +36,18 @@ spec:
         operation:
           description: Operation contains requested operation parameters.
           properties:
+            initiatedBy:
+              description: OperationInitiator holds information about the operation
+                initiator
+              properties:
+                automated:
+                  description: Automated is set to true if operation was initiated
+                    automatically by the application controller.
+                  type: boolean
+                username:
+                  description: Name of a user who started operation.
+                  type: string
+              type: object
             sync:
               description: SyncOperation contains sync operation details.
               properties:
@@ -127,6 +139,21 @@ spec:
                     helm:
                       description: Helm holds helm specific options
                       properties:
+                        fileParameters:
+                          description: FileParameters are file parameters to the helm
+                            template
+                          items:
+                            description: HelmFileParameter is a file parameter to
+                              a helm template
+                            properties:
+                              name:
+                                description: Name is the name of the helm parameter
+                                type: string
+                              path:
+                                description: Path is the path value for the helm parameter
+                                type: string
+                            type: object
+                          type: array
                         parameters:
                           description: Parameters are parameters to the helm template
                           items:
@@ -205,6 +232,9 @@ spec:
                           description: NameSuffix is a suffix appended to resources
                             for kustomize apps
                           type: string
+                        version:
+                          description: Version contains optional Kustomize version
+                          type: string
                       type: object
                     path:
                       description: Path is a directory path within the Git repository
@@ -242,6 +272,11 @@ spec:
                   required:
                   - repoURL
                   type: object
+                syncOptions:
+                  description: SyncOptions provide per-sync sync-options, e.g. Validate=false
+                  items:
+                    type: string
+                  type: array
                 syncStrategy:
                   description: SyncStrategy describes how to perform the sync
                   properties:
@@ -392,6 +427,21 @@ spec:
                 helm:
                   description: Helm holds helm specific options
                   properties:
+                    fileParameters:
+                      description: FileParameters are file parameters to the helm
+                        template
+                      items:
+                        description: HelmFileParameter is a file parameter to a helm
+                          template
+                        properties:
+                          name:
+                            description: Name is the name of the helm parameter
+                            type: string
+                          path:
+                            description: Path is the path value for the helm parameter
+                            type: string
+                        type: object
+                      type: array
                     parameters:
                       description: Parameters are parameters to the helm template
                       items:
@@ -469,6 +519,9 @@ spec:
                       description: NameSuffix is a suffix appended to resources for
                         kustomize apps
                       type: string
+                    version:
+                      description: Version contains optional Kustomize version
+                      type: string
                   type: object
                 path:
                   description: Path is a directory path within the Git repository
@@ -519,6 +572,11 @@ spec:
                       description: 'SelfHeal enables auto-syncing if  (default: false)'
                       type: boolean
                   type: object
+                syncOptions:
+                  description: Options allow youe to specify whole app sync-options
+                  items:
+                    type: string
+                  type: array
               type: object
           required:
           - destination
@@ -627,6 +685,22 @@ spec:
                       helm:
                         description: Helm holds helm specific options
                         properties:
+                          fileParameters:
+                            description: FileParameters are file parameters to the
+                              helm template
+                            items:
+                              description: HelmFileParameter is a file parameter to
+                                a helm template
+                              properties:
+                                name:
+                                  description: Name is the name of the helm parameter
+                                  type: string
+                                path:
+                                  description: Path is the path value for the helm
+                                    parameter
+                                  type: string
+                              type: object
+                            type: array
                           parameters:
                             description: Parameters are parameters to the helm template
                             items:
@@ -707,6 +781,9 @@ spec:
                             description: NameSuffix is a suffix appended to resources
                               for kustomize apps
                             type: string
+                          version:
+                            description: Version contains optional Kustomize version
+                            type: string
                         type: object
                       path:
                         description: Path is a directory path within the Git repository
@@ -770,6 +847,18 @@ spec:
                 operation:
                   description: Operation is the original requested operation
                   properties:
+                    initiatedBy:
+                      description: OperationInitiator holds information about the
+                        operation initiator
+                      properties:
+                        automated:
+                          description: Automated is set to true if operation was initiated
+                            automatically by the application controller.
+                          type: boolean
+                        username:
+                          description: Name of a user who started operation.
+                          type: string
+                      type: object
                     sync:
                       description: SyncOperation contains sync operation details.
                       properties:
@@ -866,6 +955,23 @@ spec:
                             helm:
                               description: Helm holds helm specific options
                               properties:
+                                fileParameters:
+                                  description: FileParameters are file parameters
+                                    to the helm template
+                                  items:
+                                    description: HelmFileParameter is a file parameter
+                                      to a helm template
+                                    properties:
+                                      name:
+                                        description: Name is the name of the helm
+                                          parameter
+                                        type: string
+                                      path:
+                                        description: Path is the path value for the
+                                          helm parameter
+                                        type: string
+                                    type: object
+                                  type: array
                                 parameters:
                                   description: Parameters are parameters to the helm
                                     template
@@ -951,6 +1057,10 @@ spec:
                                   description: NameSuffix is a suffix appended to
                                     resources for kustomize apps
                                   type: string
+                                version:
+                                  description: Version contains optional Kustomize
+                                    version
+                                  type: string
                               type: object
                             path:
                               description: Path is a directory path within the Git
@@ -989,6 +1099,12 @@ spec:
                           required:
                           - repoURL
                           type: object
+                        syncOptions:
+                          description: SyncOptions provide per-sync sync-options,
+                            e.g. Validate=false
+                          items:
+                            type: string
+                          type: array
                         syncStrategy:
                           description: SyncStrategy describes how to perform the sync
                           properties:
@@ -1133,6 +1249,22 @@ spec:
                         helm:
                           description: Helm holds helm specific options
                           properties:
+                            fileParameters:
+                              description: FileParameters are file parameters to the
+                                helm template
+                              items:
+                                description: HelmFileParameter is a file parameter
+                                  to a helm template
+                                properties:
+                                  name:
+                                    description: Name is the name of the helm parameter
+                                    type: string
+                                  path:
+                                    description: Path is the path value for the helm
+                                      parameter
+                                    type: string
+                                type: object
+                              type: array
                             parameters:
                               description: Parameters are parameters to the helm template
                               items:
@@ -1214,6 +1346,9 @@ spec:
                             nameSuffix:
                               description: NameSuffix is a suffix appended to resources
                                 for kustomize apps
+                              type: string
+                            version:
+                              description: Version contains optional Kustomize version
                               type: string
                           type: object
                         path:
@@ -1390,6 +1525,22 @@ spec:
                         helm:
                           description: Helm holds helm specific options
                           properties:
+                            fileParameters:
+                              description: FileParameters are file parameters to the
+                                helm template
+                              items:
+                                description: HelmFileParameter is a file parameter
+                                  to a helm template
+                                properties:
+                                  name:
+                                    description: Name is the name of the helm parameter
+                                    type: string
+                                  path:
+                                    description: Path is the path value for the helm
+                                      parameter
+                                    type: string
+                                type: object
+                              type: array
                             parameters:
                               description: Parameters are parameters to the helm template
                               items:
@@ -1471,6 +1622,9 @@ spec:
                             nameSuffix:
                               description: NameSuffix is a suffix appended to resources
                                 for kustomize apps
+                              type: string
+                            version:
+                              description: Version contains optional Kustomize version
                               type: string
                           type: object
                         path:
@@ -1628,6 +1782,23 @@ spec:
                 - kind
                 type: object
               type: array
+            namespaceResourceWhitelist:
+              description: NamespaceResourceWhitelist contains list of whitelisted
+                namespace level resources
+              items:
+                description: GroupKind specifies a Group and a Kind, but does not
+                  force a version.  This is useful for identifying concepts during
+                  lookup stages without having partially valid types
+                properties:
+                  group:
+                    type: string
+                  kind:
+                    type: string
+                required:
+                - group
+                - kind
+                type: object
+              type: array
             orphanedResources:
               description: OrphanedResources specifies if controller should monitor
                 orphaned resources of apps in this project
@@ -1665,6 +1836,8 @@ spec:
                         iat:
                           format: int64
                           type: integer
+                        id:
+                          type: string
                       required:
                       - iat
                       type: object
@@ -2071,6 +2244,10 @@ spec:
     port: 5557
     protocol: TCP
     targetPort: 5557
+  - name: metrics
+    port: 5558
+    protocol: TCP
+    targetPort: 5558
   selector:
     app.kubernetes.io/name: argocd-dex-server
 ---
@@ -2192,7 +2369,7 @@ spec:
         - "20"
         - --operation-processors
         - "10"
-        image: argoproj/argocd:v1.4.2
+        image: argoproj/argocd:v1.5.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -2232,21 +2409,23 @@ spec:
       - command:
         - /shared/argocd-util
         - rundex
-        image: quay.io/dexidp/dex:v2.21.0
+        image: quay.io/dexidp/dex:v2.22.0
         imagePullPolicy: Always
         name: dex
         ports:
         - containerPort: 5556
         - containerPort: 5557
+        - containerPort: 5558
         volumeMounts:
         - mountPath: /shared
           name: static-files
       initContainers:
       - command:
         - cp
+        - -n
         - /usr/local/bin/argocd-util
         - /shared
-        image: argoproj/argocd:v1.4.2
+        image: argoproj/argocd:v1.5.3
         imagePullPolicy: Always
         name: copyutil
         volumeMounts:
@@ -2310,7 +2489,7 @@ spec:
         - argocd-repo-server
         - --redis
         - argocd-redis:6379
-        image: argoproj/argocd:v1.4.2
+        image: argoproj/argocd:v1.5.3
         imagePullPolicy: Always
         livenessProbe:
           initialDelaySeconds: 5
@@ -2361,7 +2540,7 @@ spec:
         - argocd-server
         - --staticassets
         - /shared/app
-        image: argoproj/argocd:v1.4.2
+        image: argoproj/argocd:v1.5.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

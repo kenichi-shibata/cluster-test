@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: event-exporter-cfg
+  namespace: monitoring
+data:
+  config.yaml: |
+    route:
+      # Main route
+      routes:
+        # This route allows dumping all events because it has no fields to match and no drop rules.
+        - match:
+          - receiver: elasticsearch-dump
+        # This starts another route, drops all the events in *test* namespaces and Normal events
+        # for capturing critical events
+        #- drop:
+        #  - namespace: "*test*"
+        #  - type: "Normal"
+        #  match:
+        #  - receiver: "critical-events-queue"
+        # This a final route for user messages
+        #- match:
+        #    kind: "Pod|Deployment|ReplicaSet"
+        #    labels:
+        #      version: "dev"
+        #    receiver: "elasticsearch"
+    receivers:
+      - name: "elasticsearch-dump"
+        elasticsearch:
+          hosts:
+          - https://search-replace-this-endpoint-.eu-west-1.es.amazonaws.com
+          index: kube-events
+          indexFormat: "kube-events-{2006-01-02}"
+          username: fakeuser
+          password: Fakepassword1!
