@@ -68,7 +68,7 @@ aws es create-elasticsearch-domain \
 
 ```bash
 ES_ENDPOINT="https://search-kubernetes-events-fake-endpoints-123.eu-west-1.es.amazonaws.com"
-AUTH=$(echo -ne fakeuser:fakepassword | base64)`
+AUTH=$(echo -ne fakeuser:Fakepassword1! | base64)
 echo $AUTH
 
 curl -XGET "$ES_ENDPOINT" -H "Authorization: Basic $AUTH"
@@ -93,6 +93,9 @@ eksctl create cluster -f dev-cluster-1.yaml
 
 Setting up events-exporter
 -----------
+
+**change 01-configmap.yaml host to the ES_ENDPOINT before applying** 
+
 ```
 # update user name and password for the aws elasticsearch service
 kubectl create ns monitoring
@@ -104,12 +107,12 @@ kubectl apply -f 02-deployment.yaml
 
 Check logs if authentication worked
 ```
-kubectl logs deployment/kubectl logs deploy/event-exporter -n monitori
+kubectl logs deployment/event-exporter -n monitoring
 ```
 
 Create a failed event
 ```
-kubectl run --it fakeimage/fakeimage123:123 thisshouldfail -n test
+kubectl run -it --image=fakeimage/fakeimage123:123 thisshouldfail -n test
 ```
 
 If you want to make the kubernetes fields searchable in elasticsearch you might need to index them like `kube-events-*`
