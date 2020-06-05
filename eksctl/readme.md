@@ -51,8 +51,15 @@ eksctl create nodegroup --config-file=dev-cluster-1.yaml --include=dev-cluster-1
 
 ### IAM role for nodes
 
-https://eksctl.io/usage/iam-policies/
+Imagebuilder policy allows access to AWS ECR through Instance Profiles
+Autoscaler policy allows access to ASG through instance profiles
+
+**For more details**
+- https://eksctl.io/usage/iam-policies/
+- https://kubernetes.io/docs/concepts/containers/images/
 
 ### Managing Nodegroups
 
 https://eksctl.io/usage/managing-nodegroups/
+
+
