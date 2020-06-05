@@ -12,6 +12,10 @@ nodeGroups:
     privateNetworking: true
     ssh:
       allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: true
   - name: dev-cluster-1003-prometheus
     instanceType: m5.xlarge
     desiredCapacity: 1
