@@ -39,4 +39,9 @@ Login to EKS
 ```
 aws eks list-clusters
 aws eks get-token --cluster-name <name above>
+aws eks update-kubeconfig --kubeconfig=kubeconfig --name <name above>
+export KUBECONFIG=${pwd}/kubeconfig
+kubectl get pods --all-namespaces
 ```
+
+
