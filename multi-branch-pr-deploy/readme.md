@@ -15,6 +15,7 @@ Login using your awscli
 
 Configure role
 ```
+# this needs to be IAM user 
 aws configure
 aws sts assume-role --role-arn <arn> --role-session-name multi-branch-pr-deploy-$(date +%s)
 
