@@ -46,4 +46,11 @@ export KUBECONFIG=${pwd}/kubeconfig
 kubectl get pods --all-namespaces
 ```
 
+Alternate login using eksctl
+
+```
+eksctl get clusters 
+eksctl utils write-kubeconfig --kubeconfig=kubeconfig-eksctl --cluster dev-cluster-1
+export KUBECONFIG=${pwd}/kubeconfig-eksctl
+```
 
