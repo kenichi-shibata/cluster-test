@@ -3,6 +3,8 @@ Prerequisites
 ```
 brew install aws-iam-authenticator
 brew install awscli
+brew tap weaveworks/tap
+brew install weaveworks/tap/eksctl
 # kubectl 
 brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/7ee32113351bbd913b90f9578bcd52dfe85d675e/Formula/kubernetes-cli.rb
 # helm3 
