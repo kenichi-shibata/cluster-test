@@ -43,14 +43,21 @@ aws eks list-clusters
 aws eks get-token --cluster-name <name above>
 aws eks update-kubeconfig --kubeconfig=kubeconfig --name <name above>
 export KUBECONFIG=${pwd}/kubeconfig
-kubectl get pods --all-namespaces
 ```
 
 Alternate login using eksctl
 
 ```
 eksctl get clusters 
-eksctl utils write-kubeconfig --kubeconfig=kubeconfig-eksctl --cluster dev-cluster-1
+eksctl utils write-kubeconfig --kubeconfig=kubeconfig-eksctl --cluster <cluster-name>
 export KUBECONFIG=${pwd}/kubeconfig-eksctl
 ```
 
+Test kubectl access
+-----
+
+```
+kubectl get pods --all-namespaces
+kubectl get namespaces
+kubectl get nodes
+```
