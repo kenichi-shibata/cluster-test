@@ -128,3 +128,8 @@ Elasticsearch indexing
 
 ![](./event-exporter-kibana.png)
 
+
+Exporting events to metrics via prometheus
+-----
+* https://github.com/caicloud/event_exporter
+
