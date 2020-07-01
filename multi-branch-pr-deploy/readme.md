@@ -17,9 +17,13 @@ Configure role
 ```
 aws configure
 aws sts assume-role --role-arn <arn> --role-session-name multi-branch-pr-deploy-$(date +%s)
+
+export AWS_REGION=eu-west-1
+export AWS_DEFAULT_REGION=eu-west-1
 export AWS_ACCESS_KEY_ID=<.Credentials.AccessKeyId>
 export AWS_SECRET_ACCESS_KEY=<.Credentials.SecretAccessKey>
 export AWS_SESSION_TOKEN=<.Credentials.SessionToken>
+unset AWS_SECURITY_TOKEN
 ```
 
 
@@ -28,3 +32,10 @@ export AWS_SESSION_TOKEN=<.Credentials.SessionToken>
 aws sts get-caller-identity
 ```
 
+Login to EKS
+------
+
+```
+aws eks list-clusters
+aws eks get-token --cluster-name <name above>
+```
