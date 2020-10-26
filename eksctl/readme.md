@@ -9,6 +9,13 @@ brew install weaveworks/tap/eksctl
 * https://eksctl.io/introduction/
 
 
+Create a build cluster
+---
+```
+eksctl create cluster -f build-cluster-1.yaml
+```
+
+
 Install a cluster
 ------
 ```
