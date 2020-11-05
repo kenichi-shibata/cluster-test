@@ -16,7 +16,7 @@ eksctl create cluster -f build-cluster-1.yaml
 ```
 
 
-Install a cluster
+Create a dev cluster
 ------
 ```
 eksctl create cluster -f dev-cluster-1.yaml
