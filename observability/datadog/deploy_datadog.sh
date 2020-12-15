@@ -11,6 +11,9 @@ helm3 upgrade --install -f datadog-agent.yaml \
 --set datadog.leaderElection=true \
 --set datadog.collectEvents=true \
 --set agents.rbac.create=true \
+--set datadog.logs.enabled=true \
+--set datadog.logs.containerCollectAll=true \
+--set datadog.apm.enabled=true \
 --set datadog.site='datadoghq.eu' \
 --set datadog.apiKey=${DATADOG_API_KEY} \
 datadog-agent stable/datadog

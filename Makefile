@@ -9,7 +9,7 @@ gatekeeper gatekeeper%: create-gatekeeper%
 	@$(APPLY) https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper-constraint.yaml
 
 create-%:
-	kind create cluster --name $(NAME) --wait $(WAIT)
+	@kind create cluster --name $(NAME) --wait $(WAIT)
 
 create3-%:
 	kind create cluster --name $(NAME) --wait $(WAIT) --config kind/kind-three-nodes.yaml
