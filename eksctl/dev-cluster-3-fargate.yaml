@@ -2,12 +2,12 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: dev-cluster-1
+  name: dev-cluster-3
   region: eu-west-1
-  version: "1.16"
+  version: "1.18"
 
 nodeGroups:
-  - name: dev-cluster-1001-stateless
+  - name: ng-bottlerocket-1006
     instanceType: m5.large
     desiredCapacity: 3
     maxSize: 5
@@ -15,24 +15,32 @@ nodeGroups:
     privateNetworking: true
     ssh:
       allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+    amiFamily: Bottlerocket
     iam:
       withAddonPolicies:
         imageBuilder: true
         autoScaler: true
-  - name: dev-cluster-1005-appmesh
-    instanceType: m5.large
-    desiredCapacity: 0
-    minSize: 0
-    maxSize: 0
-    iam:
-      withAddonPolicies:
-        albIngress: true
-        appMesh: true
-        xRay: true
-        cloudWatch: true
+
+fargateProfiles:
+  - name: fp-default
+    selectors:
+      # All workloads in the "default" Kubernetes namespace will be
+      # scheduled onto Fargate:
+      - namespace: default
+      # All workloads in the "kube-system" Kubernetes namespace will be
+      # scheduled onto Fargate:
+      - namespace: kube-system
+  - name: fp-dev
+    selectors:
+      # All workloads in the "dev" Kubernetes namespace matching the following
+      # label selectors will be scheduled onto Fargate:
+      - namespace: snowsimple
+        labels:
+          env: dev
+          checks: passed
 
 vpc:
-  cidr: 11.1.0.0/16
+  cidr: 12.0.0.0/16
   #autoAllocateIPv6: true #This fails to delete
   # disable public access to endpoint and only allow private access
   clusterEndpoints:
