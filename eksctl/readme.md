@@ -92,4 +92,7 @@ eksctl scale nodegroup --cluster dev-cluster-1 --name dev-cluster-1001-stateless
 
 https://eksctl.io/usage/managing-nodegroups/
 
+### Logging in to Kube apiserver
 
+All authentication method either happens through oidc or aws-iam-authenticator
+* https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
