@@ -157,9 +157,7 @@ data:
       rolearn: arn:aws:iam::029718257588:role/eksctl-dev-cluster-1000-nodegroup-NodeInstanceRole-4ITFHC28ZVLV
       username: system:node:{{EC2PrivateDNSName}}
   mapUsers: |
-    - groups:
-      - system:users
-      userarn: arn:aws:iam::029718257588:user/kshibata
+    - userarn: arn:aws:iam::029718257588:user/kshibata
       username: kshibata
 kind: ConfigMap
 metadata:
@@ -178,6 +176,43 @@ error: You must be logged in to the server (Unauthorized)
 You need to bind the user (username) `kshibata` to a `role` or `clusterrole`. Alternatively you can use the newly created group `system:users`.
 
 ```
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kshibata-clusterrole
+  namespace: rbac-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kshibata-clusterrolebinding
+  namespace: rbac-system
+subjects:
+- kind: User
+  name: kshibata
+  namespace: rbac-system
+roleRef:
+  kind: ClusterRole
+  name: kshibata-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+
+```
+try again!
+```
+❯ kubectl get nodes
+Error from server (Forbidden): nodes is forbidden: User "kshibata" cannot list resource "nodes" in API group "" at the cluster scope
+❯ kubectl get pods
+NAME                                    READY   STATUS    RESTARTS   AGE
+kubernetes-dashboard-58c67fdb89-qtjhj   1/1     Running   0          24h
 ```
 
 ### Adding users via oidc
