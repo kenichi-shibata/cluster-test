@@ -141,6 +141,19 @@ arn:aws:iam::029718257588:role/eksctl-dev-cluster-1000-nodegroup-NodeInstanceRol
 arn:aws:iam::029718257588:user/kshibata								kshibata				system:users
 ```
 
+Now if you try to login and get pods. you will still get the errors
+
+```
+❯ export AWS_PROFILE=kshibata
+❯ kubectl get pods -A
+error: You must be logged in to the server (Unauthorized)
+```
+
+You need to bind the user (username) `kshibata` to a `role` or `clusterrole`. Alternatively you can use the newly created group `system:users`.
+
+```
+```
+
 ### Adding users via oidc
 
 * https://aws.amazon.com/blogs/containers/introducing-oidc-identity-provider-authentication-amazon-eks/
