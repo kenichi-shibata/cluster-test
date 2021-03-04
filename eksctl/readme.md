@@ -141,6 +141,32 @@ arn:aws:iam::029718257588:role/eksctl-dev-cluster-1000-nodegroup-NodeInstanceRol
 arn:aws:iam::029718257588:user/kshibata								kshibata				system:users
 ```
 
+```
+❯ kubectl get cm -n kube-system aws-auth -o yaml
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::029718257588:role/eksctl-dev-cluster-1000-nodegroup-NodeInstanceRole-AR2TCRJBEHF
+      username: system:node:{{EC2PrivateDNSName}}
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::029718257588:role/eksctl-dev-cluster-1000-nodegroup-NodeInstanceRole-4ITFHC28ZVLV
+      username: system:node:{{EC2PrivateDNSName}}
+  mapUsers: |
+    - groups:
+      - system:users
+      userarn: arn:aws:iam::029718257588:user/kshibata
+      username: kshibata
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+```
+
 Now if you try to login and get pods. you will still get the errors
 
 ```
